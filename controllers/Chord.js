@@ -237,8 +237,8 @@ exports.getRekomendasi = async (req, res, msg) => {
 						: await Kategori.findAll({
 								where: {
 									flag: flag,
-									order: [["createdAt", "DESC"]],
-									limit: 10,
+									order: [["created_at", "DESC"]],
+									limit: 20,
 								},
 						  });
 				res.send(
@@ -474,7 +474,6 @@ exports.postChord = async (req, res, msg) => {
 					band: id_band,
 					nama_band: nama_band,
 					abjad: abjad,
-					flag: flag,
 				});
 				await Chord.create({
 					id: id,
@@ -484,6 +483,12 @@ exports.postChord = async (req, res, msg) => {
 					created_by: created_by,
 					isi: chord,
 					abjad: abjad,
+				});
+				await Kategori.create({
+					id_lagu: id,
+					judul: judul,
+					nama_band: nama_band,
+					flag: flag,
 				});
 				res.send(
 					msg(false, "Successfull", {
