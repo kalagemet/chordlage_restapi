@@ -1,5 +1,5 @@
-import { Sequelize } from "sequelize";
-import db from "../config/database.js";
+const { Sequelize } = require("sequelize");
+const db = require("../config/database.js");
 
 const { DataTypes } = Sequelize;
 
@@ -18,6 +18,9 @@ const Lagu = db.define(
     abjad: {
       type: DataTypes.INTEGER,
     },
+    created_by: {
+      type: DataTypes.STRING,
+    },
   },
   {
     freezeTableName: true,
@@ -25,4 +28,5 @@ const Lagu = db.define(
   }
 );
 
-export default Lagu;
+//export default Lagu;
+module.exports = Lagu;

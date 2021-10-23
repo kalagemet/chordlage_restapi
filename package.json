@@ -1,21 +1,22 @@
 {
   "name": "chord_api",
   "version": "1.0.0",
-  "description": "RESTfull Api",
+  "description": "RestFull Api Chord",
   "main": "index.js",
-  "type": "module",
+  "type": "modul",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "hamid",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "esm": "^3.2.25",
     "express": "^4.17.1",
     "express-basic-token": "^1.0.0",
+    "md5": "^2.3.0",
     "mysql2": "^2.2.5",
+    "pm2": "^5.1.0",
     "sequelize": "^6.5.0"
   }
 }

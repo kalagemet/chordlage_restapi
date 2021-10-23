@@ -1,5 +1,5 @@
-import { Sequelize } from "sequelize";
-import db from "../config/database.js";
+const { Sequelize } = require("sequelize");
+const db = require("../config/database.js");
 
 const { DataTypes } = Sequelize;
 
@@ -15,6 +15,9 @@ const Chord = db.define(
     nama_band: {
       type: DataTypes.STRING,
     },
+    created_by: {
+      type: DataTypes.STRING,
+    },
     isi: {
       type: DataTypes.STRING,
     },
@@ -28,4 +31,5 @@ const Chord = db.define(
   }
 );
 
-export default Chord;
+module.exports = Chord;
+//export default Chord;

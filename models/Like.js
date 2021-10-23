@@ -3,15 +3,18 @@ const db = require("../config/database.js");
 
 const { DataTypes } = Sequelize;
 
-const Band = db.define(
-  "table_band",
+const Like = db.define(
+  "table_like",
   {
-    nama: {
+    id_user: {
       type: DataTypes.STRING,
     },
-    abjad: {
+    id_chord: {
       type: DataTypes.INTEGER,
     },
+    soft_delete: {
+        type: DataTypes.INTEGER,
+    }
   },
   {
     freezeTableName: true,
@@ -19,5 +22,5 @@ const Band = db.define(
   }
 );
 
-// export default band
-module.exports = Band;
+//export default Like;
+module.exports = Like;

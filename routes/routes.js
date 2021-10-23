@@ -1,43 +1,13 @@
-import express from "express";
-import {
-  getChord,
-  getLaguPopuler,
-  getLaguTerbaru,
-  getLaguTerkait,
-  getListBand,
-  getListBandCari,
-  getListLagu,
-  getListLaguCari,
-  postChord,
-} from "../controllers/Chord.js";
+const express = require("express");
+const mainController = require("../controllers/Main.js");
 
 const router = express.Router();
 
-//get chord
-router.get("/chord/:id", getChord);
+// index
+router.all("/", (req, res) => res.send("Welcome to hamidmusafa.com api's"));
 
-//get list abjad
-router.get("/abjad", getListBand);
+// Main Route
+router.all("/requests", mainController);
 
-//cari band
-router.get("/band", getListBandCari);
-
-//get list lagu band
-router.get("/lagu", getListLagu);
-
-// get list lagu cari
-router.get("/cari", getListLaguCari);
-
-//get terkait
-router.get("/terkait/:id", getLaguTerkait);
-
-//get terbaru
-router.get("/terbaru", getLaguTerbaru);
-
-//get popular
-router.get("/populer", getLaguPopuler);
-
-//post chord
-router.post("/post", postChord);
-
-export default router;
+//export default router;
+module.exports = router;
