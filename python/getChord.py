@@ -52,7 +52,7 @@ def getJudul(link):
         "Content-Type": "application/json",
         'method':'POST'    
     }
-    flag = input("Kateogri :")
+    flag = input("Kategori :")
     key = hashlib.md5("whattheapks".encode('utf-8')).hexdigest()
     data = {
         "route":"postChord",
@@ -68,7 +68,7 @@ def getJudul(link):
         "id_app":"dddd"
     }
     data['token'] = hashlib.md5((json.dumps(data, separators=(',', ':'))+key).encode('utf-8')).hexdigest()
-    data = json.dumps(data)
+    data = json.dumps(data, separators=(',', ':'))
     x = requests.post(url, headers=headers, data=data)
     # print(data)
     print(x.text)
