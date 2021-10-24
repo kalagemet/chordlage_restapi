@@ -237,9 +237,9 @@ exports.getRekomendasi = async (req, res, msg) => {
 						: await Kategori.findAll({
 								where: {
 									flag: flag,
-									order: [["created_at", "DESC"]],
-									limit: 20,
 								},
+								order: [["created_at", "DESC"]],
+								limit: 20,
 						  });
 				res.send(
 					msg(false, "Successfull", {
