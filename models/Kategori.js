@@ -6,6 +6,9 @@ const { DataTypes } = Sequelize;
 const Kategori = db.define(
 	"table_rekomendasi",
 	{
+		id_lagu: {
+			type: DataTypes.INTEGER,
+		},
 		judul: {
 			type: DataTypes.STRING,
 		},

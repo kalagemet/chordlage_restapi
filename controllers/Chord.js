@@ -9,6 +9,16 @@ const e = require("express");
 
 const Op = Sequelize.Op;
 
+function isEmpty(obj) {
+	// for (var key in obj) {
+	// 	if (Object.prototype.hasOwnProperty.call(obj, key)) {
+	// 		return false;
+	// 	}
+	// }
+	// return true;
+	return obj === "";
+}
+
 const getPagination = (page, size) => {
 	const limit = size ? +size : 3;
 	const offset = page ? page * limit : 0;
@@ -30,7 +40,8 @@ exports.getChord = async (req, res, msg) => {
 		res.status(403).send(msg(true, "Methode not allowed"));
 	else {
 		const { id, user_id } = req.body.payload;
-		if (!id || !user_id) res.status(503).send(msg(true, "Missing payload"));
+		if (isEmpty(id) || isEmpty(user_id))
+			res.status(503).send(msg(true, "Missing payload"));
 		else
 			try {
 				const chord = await Chord.findOne({
@@ -77,7 +88,8 @@ exports.getListBand = async (req, res, msg) => {
 	else {
 		const { page, index } = req.body.payload;
 		const { limit, offset } = getPagination(page, 10);
-		if (!page || !index) res.status(503).send(msg(true, "Missing payload"));
+		if (isEmpty(page) || isEmpty(index))
+			res.status(503).send(msg(true, "Missing payload"));
 		else
 			try {
 				const band = await Band.findAndCountAll({
@@ -100,7 +112,8 @@ exports.getListBandCari = async (req, res, msg) => {
 	else {
 		const { page, string } = req.body.payload;
 		const { limit, offset } = getPagination(page, 10);
-		if (!page || !string) res.status(503).send(msg(true, "Missing payload"));
+		if (isEmpty(page) || isEmpty(string))
+			res.status(503).send(msg(true, "Missing payload"));
 		else
 			try {
 				const band = await Band.findAndCountAll({
@@ -126,7 +139,8 @@ exports.getListLagu = async (req, res, msg) => {
 	else {
 		const { page, band } = req.body.payload;
 		const { limit, offset } = getPagination(page, 20);
-		if (!page || !band) res.status(503).send(msg(true, "Missing payload"));
+		if (isEmpty(page) || isEmpty(band))
+			res.status(503).send(msg(true, "Missing payload"));
 		else
 			try {
 				const lagu = await Lagu.findAndCountAll({
@@ -150,7 +164,8 @@ exports.getListLaguCari = async (req, res, msg) => {
 	else {
 		const { page, string } = req.body.payload;
 		const { limit, offset } = getPagination(page, 20);
-		if (!page || !string) res.status(503).send(msg(true, "Missing payload"));
+		if (isEmpty(page) || isEmpty(string))
+			res.status(503).send(msg(true, "Missing payload"));
 		else
 			try {
 				const lagu = await Lagu.findAndCountAll({
@@ -175,7 +190,7 @@ exports.getLaguTerkait = async (req, res, msg) => {
 		res.status(403).send(msg(true, "Methode not allowed"));
 	else {
 		const { id } = req.body.payload;
-		if (!id) res.status(503).send(msg(true, "Missing payload"));
+		if (isEmpty(id)) res.status(503).send(msg(true, "Missing payload"));
 		else
 			try {
 				const band = await Lagu.findAll({
@@ -220,7 +235,8 @@ exports.getRekomendasi = async (req, res, msg) => {
 		res.status(403).send(msg(true, "Methode not allowed"));
 	else {
 		const { flag } = req.body.payload;
-		if (!flag) res.status(500).send(msg(true, "Flag is required"));
+		if (isEmpty(flag))
+			res.status(500).send(msg(true, "Missing required payload"));
 		else
 			try {
 				const daftar_flag = await Kategori.findAll({
@@ -263,7 +279,8 @@ exports.getListCreated = async (req, res, msg) => {
 		const { page, user_id } = req.body.payload;
 		const { limit, offset } = getPagination(page, 20);
 
-		if (!page || !user_id) res.status(500).send(msg(true, "Flag is required"));
+		if (isEmpty(page) || isEmpty(user_id))
+			res.status(500).send(msg(true, "Missing required payload"));
 		else
 			try {
 				const lagu = await Lagu.findAndCountAll({
@@ -286,8 +303,8 @@ exports.likeLagu = async (req, res, msg) => {
 		res.status(403).send(msg(true, "Methode not allowed"));
 	else {
 		const { id_chord, id_user } = req.body.payload;
-		if (!id_chord || !id_user)
-			res.status(500).send(msg(true, "Flag is required"));
+		if (isEmpty(id_chord) || isEmpty(id_user))
+			res.status(500).send(msg(true, "Missing required payload"));
 		else
 			try {
 				const like = await Chord.findOne({
@@ -336,8 +353,8 @@ exports.dislikeLagu = async (req, res, msg) => {
 		res.status(403).send(msg(true, "Methode not allowed"));
 	else {
 		const { id_chord, id_user } = req.body.payload;
-		if (!id_chord || !id_user)
-			res.status(500).send(msg(true, "Flag is required"));
+		if (isEmpty(id_chord) || isEmpty(id_user))
+			res.status(500).send(msg(true, "Missing required payload"));
 		else
 			try {
 				const like = await Chord.findOne({
@@ -383,11 +400,12 @@ exports.getLike = async (req, res, msg) => {
 	else {
 		const { page, id_user } = req.body.payload;
 		const { limit, offset } = getPagination(page, 15);
-		if (!page || !id_user) res.status(500).send(msg(true, "Flag is required"));
+		if (isEmpty(page) || isEmpty(id_user))
+			res.status(500).send(msg(true, "Missing required payload"));
 		else
 			try {
 				const array = [];
-				const like = await Like.findAll({
+				await Like.findAll({
 					attributes: ["id_chord"],
 					where: {
 						id_user: id_user,
@@ -426,88 +444,108 @@ exports.postChord = async (req, res, msg) => {
 	else {
 		const { judul, nama_band, chord, abjad, created_by, flag } =
 			req.body.payload;
-		if (!judul || !nama_band || !chord || !abjad || !created_by || !flag)
-			res.status(500).send(msg(true, "Flag is required"));
-		try {
-			let { id, id_band } = 0;
-			let band_status = "exist";
-			let cek = await Lagu.findOne({
-				where: {
-					judul: judul,
-					nama_band: nama_band,
-				},
-			});
-			if (cek == null) {
-				id_band = await Band.findOne({
-					attributes: ["id"],
+		if (
+			isEmpty(judul) ||
+			isEmpty(nama_band) ||
+			isEmpty(chord) ||
+			isEmpty(abjad) ||
+			isEmpty(created_by) ||
+			isEmpty(flag)
+		)
+			res.status(500).send(msg(true, "Missing required payload"));
+		else
+			try {
+				let { id, id_band } = 0;
+				let band_status = "exist";
+				let cek = await Lagu.findOne({
 					where: {
-						nama: nama_band,
+						judul: judul,
+						nama_band: nama_band,
 					},
 				});
-				if (id_band == null) {
+				if (cek == null) {
 					id_band = await Band.findOne({
+						attributes: ["id"],
+						where: {
+							nama: nama_band,
+						},
+					});
+					if (id_band == null) {
+						id_band = await Band.findOne({
+							attributes: [Sequelize.fn("max", Sequelize.col("id"))],
+							raw: true,
+						});
+						//put band
+						id_band = Number(id_band["max(`id`)"]) + 1;
+						band_status = "new_band";
+						const post = await Band.create({
+							id: id_band,
+							nama: nama_band,
+							abjad: abjad,
+						});
+					} else {
+						id_band = id_band["id"];
+					}
+
+					//put chord
+					id = await Lagu.findOne({
 						attributes: [Sequelize.fn("max", Sequelize.col("id"))],
 						raw: true,
 					});
-					//put band
-					id_band = Number(id_band["max(`id`)"]) + 1;
-					band_status = "new_band";
-					const post = await Band.create({
-						id: id_band,
-						nama: nama_band,
-						abjad: abjad,
-					});
-				} else {
-					id_band = id_band["id"];
-				}
-
-				//put chord
-				id = await Lagu.findOne({
-					attributes: [Sequelize.fn("max", Sequelize.col("id"))],
-					raw: true,
-				});
-				id = Number(id["max(`id`)"]) + 1;
-				await Lagu.create({
-					id: id,
-					judul: judul,
-					created_by: created_by,
-					band: id_band,
-					nama_band: nama_band,
-					abjad: abjad,
-				});
-				await Chord.create({
-					id: id,
-					judul: judul,
-					band: id_band,
-					nama_band: nama_band,
-					created_by: created_by,
-					isi: chord,
-					abjad: abjad,
-				});
-				await Kategori.create({
-					id_lagu: id,
-					judul: judul,
-					nama_band: nama_band,
-					flag: flag,
-				});
-				res.send(
-					msg(false, "Successfull", {
+					id = Number(id["max(`id`)"]) + 1;
+					await Lagu.create({
 						id: id,
 						judul: judul,
-						abjad: abjad,
-						id_band: id_band,
+						created_by: created_by,
+						band: id_band,
 						nama_band: nama_band,
-						band_status: band_status,
-					})
-				);
-			} else {
-				res.send(msg(true, "Already Exist"));
+						abjad: abjad,
+					});
+					await Chord.create({
+						id: id,
+						judul: judul,
+						band: id_band,
+						nama_band: nama_band,
+						created_by: created_by,
+						isi: chord,
+						abjad: abjad,
+					});
+					await Kategori.create({
+						id: "",
+						id_lagu: id,
+						judul: judul,
+						nama_band: nama_band,
+						flag: flag,
+					});
+					res.send(
+						msg(false, "Successfull", {
+							id: id,
+							judul: judul,
+							abjad: abjad,
+							id_band: id_band,
+							nama_band: nama_band,
+							band_status: band_status,
+							flag: flag,
+						})
+					);
+				} else {
+					if (flag.substring(0, 3) === "TOP") {
+						await Kategori.create({
+							id: "",
+							id_lagu: Number(cek["id"]),
+							judul: judul,
+							nama_band: nama_band,
+							flag: flag,
+						});
+						console.log("Added " + flag);
+					}
+					res.send(msg(true, "Already Exist"));
+				}
+			} catch (e) {
+				message = e.toString();
+				console.log(e.message);
+				res.send(msg(true, e.message));
 			}
-		} catch (e) {
-			message = e.toString();
-			console.log(e.message);
-			res.send(msg(true, e.message));
-		}
 	}
 };
 
@@ -516,8 +554,14 @@ exports.updateChord = async (req, res, msg) => {
 		res.status(403).send(msg(true, "Methode not allowed"));
 	else {
 		const { id, judul, nama_band, chord, abjad } = req.body.payload;
-		if (!judul || !nama_band || !chord || !abjad || !id)
-			res.status(500).send(msg(true, "Flag is required"));
+		if (
+			isEmpty(judul) ||
+			isEmpty(nama_band) ||
+			isEmpty(chord) ||
+			isEmpty(abjad) ||
+			isEmpty(id)
+		)
+			res.status(500).send(msg(true, "Missing required payload"));
 		else
 			try {
 				let abjad_id = Number(abjad);
@@ -575,7 +619,8 @@ exports.deleteChord = async (req, res, msg) => {
 		res.status(403).send(msg(true, "Methode not allowed"));
 	else {
 		const { id } = req.body.payload;
-		if (!id) res.status(500).send(msg(true, "Flag is required"));
+		if (isEmpty(id))
+			res.status(500).send(msg(true, "Missing required payload"));
 		else
 			try {
 				await Chord.findByPk(id).then(function (chord) {

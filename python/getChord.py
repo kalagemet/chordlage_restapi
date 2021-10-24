@@ -46,6 +46,7 @@ def getJudul(link):
     print("Posting ke server ...")
     url = 'https://dev.apis.hamidmusafa.com/'
     headers = {
+        'Accept': 'text/plain',
         'User-Agent': 'Mozilla/5.0',
         "access-token": "79fa2fcaecf5c83c299cd96e2ba44710",
         "Content-Type": "application/json",
@@ -67,7 +68,7 @@ def getJudul(link):
         "id_app":"dddd"
     }
     data['token'] = hashlib.md5((json.dumps(data, separators=(',', ':'))+key).encode('utf-8')).hexdigest()
-    
+    data = json.dumps(data)
     x = requests.post(url, headers=headers, data=data)
     # print(data)
     print(x.text)
