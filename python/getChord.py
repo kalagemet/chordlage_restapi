@@ -3,6 +3,7 @@ import requests
 import re
 import cloudscraper
 import hashlib
+import json
 # from bs4 import BeautifulSoup
 
 def getJudul(link):
@@ -43,26 +44,31 @@ def getJudul(link):
     # content = re.sub(r'<Element span.+?>', '</span>', str(content))
     content = encode(content)
     print("Posting ke server ...")
-    url = 'https://lagu.api.hamidmusafa.com/post'
+    url = 'https://dev.apis.hamidmusafa.com/'
     headers = {
         'User-Agent': 'Mozilla/5.0',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'apa': '79fa2fcaecf5c83c299cd96e2ba44710',
+        "access-token": "79fa2fcaecf5c83c299cd96e2ba44710",
+        "Content-Type": "application/json",
         'method':'POST'    
     }
+    flag = input("Kateogri :")
+    key = hashlib.md5("whattheapks".encode('utf-8')).hexdigest()
     data = {
-        "payload":{
-            'judul' : judul,
+        "route":"postChord",
+        "payload": {
+            'judul' : judul.replace('Chord Dasar',''),
             'nama_band' : penyanyi,
             'chord': content,
             'abjad' : abjad,
-            'created_by' : 0
+            'created_by' : 0,
+            'flag' : flag.upper()
         },
-        "token":'',
-        "id_app":"Posoei33i499dj9djd9jdjdjddjj"
+        "token": key,
+        "id_app":"dddd"
     }
-
-    # x = requests.post(url, headers=headers, data=data)
+    data['token'] = hashlib.md5((json.dumps(data, separators=(',', ':'))+key).encode('utf-8')).hexdigest()
+    
+    x = requests.post(url, headers=headers, data=data)
     # print(data)
     print(x.text)
 
@@ -94,8 +100,8 @@ def encode(isi) :
 def main():
     while(True):
         print("Post New Chord")
-        url = 'https://www.chordtela.com/2021/09/yeni-inka-tak-antem-watu.html'
-        # url = raw_input("Url Chordtela :")
+        # url = 'https://www.chordtela.com/2021/09/yeni-inka-tak-antem-watu.html'
+        url = input("Url Chordtela :")
         if(url=='exit'):
             return False
         else:
