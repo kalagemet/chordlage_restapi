@@ -51,35 +51,35 @@ This is an example of how to list things you need to use the software and how to
     ```
    
 ## List of Route Function
-  - getChord
+- getChord
     To Get Chord Content
     required payload `{ id, user_id }`
-	- getRekomendasi,
-	  to get list of requmendasi
+- getRekomendasi,
+	to get list of requmendasi
     required payload `{ flag //TOP INDO, JAWA HITS dll }`
-	- getLaguTerkait,
+- getLaguTerkait,
     required payload `{ id }`
-	- getListBand
+- getListBand
     required payload `{ page, index }`
-	- getListBandCari
+- getListBandCari
     required payload `{ page, string }`
-	- getListLagu
+- getListLagu
     required payload `{ page, band }`
-	- getListLaguCari
+- getListLaguCari
     required payload `{ page, string }`
-	- postChord
+- postChord
     required payload `{ judul, nama_band, chord, abjad, created_by, flag }`
-	- deleteChord
+- deleteChord
     required payload `{ id }`
-	- getListCreated
+- getListCreated
     required payload `{ page, user_id }`
-	- getLike
+- getLike
     required payload `{ page, id_user }`
-	- updateChord
+- updateChord
     required payload `{ id, judul, nama_band, chord, abjad }`
-	- likeLagu
+- likeLagu
     required payload `{ id_chord, id_user }`
-	- dislikeLagu
+- dislikeLagu
     required payload `{ id_chord, id_user }`
     
     
