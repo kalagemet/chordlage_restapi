@@ -88,10 +88,10 @@ exports.getListBand = async (req, res, msg) => {
 	else {
 		const { page, index } = req.body.payload;
 		const { limit, offset } = getPagination(page, 10);
-		if (isEmpty(page) || isEmpty(index))
-			res.status(503).send(msg(true, "Missing payload"));
+		if (isEmpty(index)) res.status(503).send(msg(true, "Missing payload"));
 		else
 			try {
+				page = isEmpty(page) ? 0 : page;
 				const band = await Band.findAndCountAll({
 					where: {
 						abjad: index,
@@ -112,10 +112,10 @@ exports.getListBandCari = async (req, res, msg) => {
 	else {
 		const { page, string } = req.body.payload;
 		const { limit, offset } = getPagination(page, 10);
-		if (isEmpty(page) || isEmpty(string))
-			res.status(503).send(msg(true, "Missing payload"));
+		if (isEmpty(string)) res.status(503).send(msg(true, "Missing payload"));
 		else
 			try {
+				page = isEmpty(page) ? 0 : page;
 				const band = await Band.findAndCountAll({
 					where: {
 						nama: {
@@ -139,10 +139,10 @@ exports.getListLagu = async (req, res, msg) => {
 	else {
 		const { page, band } = req.body.payload;
 		const { limit, offset } = getPagination(page, 20);
-		if (isEmpty(page) || isEmpty(band))
-			res.status(503).send(msg(true, "Missing payload"));
+		if (isEmpty(band)) res.status(503).send(msg(true, "Missing payload"));
 		else
 			try {
+				page = isEmpty(page) ? 0 : page;
 				const lagu = await Lagu.findAndCountAll({
 					where: {
 						band: band,
@@ -164,10 +164,10 @@ exports.getListLaguCari = async (req, res, msg) => {
 	else {
 		const { page, string } = req.body.payload;
 		const { limit, offset } = getPagination(page, 20);
-		if (isEmpty(page) || isEmpty(string))
-			res.status(503).send(msg(true, "Missing payload"));
+		if (isEmpty(string)) res.status(503).send(msg(true, "Missing payload"));
 		else
 			try {
+				page = isEmpty(page) ? 0 : page;
 				const lagu = await Lagu.findAndCountAll({
 					where: {
 						judul: {
@@ -279,10 +279,11 @@ exports.getListCreated = async (req, res, msg) => {
 		const { page, user_id } = req.body.payload;
 		const { limit, offset } = getPagination(page, 20);
 
-		if (isEmpty(page) || isEmpty(user_id))
+		if (isEmpty(user_id))
 			res.status(500).send(msg(true, "Missing required payload"));
 		else
 			try {
+				page = isEmpty(page) ? 0 : page;
 				const lagu = await Lagu.findAndCountAll({
 					where: {
 						created_by: user_id,
@@ -400,10 +401,11 @@ exports.getLike = async (req, res, msg) => {
 	else {
 		const { page, id_user } = req.body.payload;
 		const { limit, offset } = getPagination(page, 15);
-		if (isEmpty(page) || isEmpty(id_user))
+		if (isEmpty(id_user))
 			res.status(500).send(msg(true, "Missing required payload"));
 		else
 			try {
+				page = isEmpty(page) ? 0 : page;
 				const array = [];
 				await Like.findAll({
 					attributes: ["id_chord"],
