@@ -10,16 +10,13 @@
   <h3 align="center">Chord API's</h3>
 </div>
 
-<!-- ABOUT THE PROJECT -->
-
-## About The Project
-
-<!-- GETTING STARTED -->
 
 ## Getting Started
 
 You need to put acces token on header off requests
-`sh access-token: $SECRET_ACCESTOKEN `
+```
+access-token: $SECRET_ACCESTOKEN
+```
 
 ### Prerequisites
 
