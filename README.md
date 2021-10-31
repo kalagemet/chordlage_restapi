@@ -49,6 +49,40 @@ This is an example of how to list things you need to use the software and how to
         "id_app": "itufggbuA7Chobacoba"
     }
     ```
+   
+## List of Route Function
+  - getChord
+    To Get Chord Content
+    required payload `{ id, user_id }`
+	- getRekomendasi,
+	  to get list of requmendasi
+    required payload `{ flag //TOP INDO, JAWA HITS dll }`
+	- getLaguTerkait,
+    required payload `{ id }`
+	- getListBand
+    required payload `{ page, index }`
+	- getListBandCari
+    required payload `{ page, string }`
+	- getListLagu
+    required payload `{ page, band }`
+	- getListLaguCari
+    required payload `{ page, string }`
+	- postChord
+    required payload `{ judul, nama_band, chord, abjad, created_by, flag }`
+	- deleteChord
+    required payload `{ id }`
+	- getListCreated
+    required payload `{ page, user_id }`
+	- getLike
+    required payload `{ page, id_user }`
+	- updateChord
+    required payload `{ id, judul, nama_band, chord, abjad }`
+	- likeLagu
+    required payload `{ id_chord, id_user }`
+	- dislikeLagu
+    required payload `{ id_chord, id_user }`
+    
+    
 <!-- ROADMAP -->
 
 ## Roadmap
