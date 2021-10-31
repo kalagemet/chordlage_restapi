@@ -33,7 +33,22 @@ This is an example of how to list things you need to use the software and how to
         id_app: APP_ID
     }
   ```
-
+ - Example
+    ```
+    {
+        "route": "postChord", 
+        "payload": {
+            "judul": "Tenang ", 
+            "nama_band": "Yura Yunita", 
+            "chord": "kksks", 
+            "abjad": 26, 
+            "created_by": 0, 
+            "flag": "TOP INDO"
+        }, 
+        "token": "T0oekejfnJajalsnSajanf", 
+        "id_app": "itufggbuA7Chobacoba"
+    }
+    ```
 <!-- ROADMAP -->
 
 ## Roadmap
