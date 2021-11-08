@@ -44,29 +44,24 @@ def getJudul(link):
     # content = re.sub(r'<Element span.+?>', '</span>', str(content))
     content = encode(content)
     print("Posting ke server ...")
-    url = 'https://dev.apis.hamidmusafa.com/'
+    # TODO: #1 API doesn't work
+    url = 'https://lagu.api.hamidmusafa.com/post'
     headers = {
         'Accept': 'text/plain',
         'User-Agent': 'Mozilla/5.0',
-        "access-token": "79fa2fcaecf5c83c299cd96e2ba44710",
+        "apa": "79fa2fcaecf5c83c299cd96e2ba44710",
         "Content-Type": "application/json",
         'method':'POST'    
     }
     flag = input("Kategori :")
     key = hashlib.md5("whattheapks".encode('utf-8')).hexdigest()
     data = {
-        "route":"postChord",
-        "payload": {
             'judul' : judul.replace('Chord Dasar',''),
             'nama_band' : penyanyi,
             'chord': content,
             'abjad' : abjad,
             'created_by' : 0,
-            'flag' : flag.upper()
-        },
-        "token": key,
-        "id_app":"dddd"
-    }
+        }
     data['token'] = hashlib.md5((json.dumps(data, separators=(',', ':'))+key).encode('utf-8')).hexdigest()
     data = json.dumps(data, separators=(',', ':'))
     x = requests.post(url, headers=headers, data=data)
